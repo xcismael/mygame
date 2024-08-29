@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "moveName": "Flamethrower",
+    "type": "fire",
+    "power": 90,
+    "powerPoint": 15,
+    "accuracy": 100,
+    "specialCondition": " "
+  },
+  {
+    "id": 2,
+    "moveName": "Dragon Claw",
+    "type": "dragon",
+    "power": 80,
+    "powerPoint": 15,
+    "accuracy": 100,
+    "specialCondition": " "
+  },
+  {
+    "id": 3,
+    "moveName": "Protect",
+    "type": "normal",
+    "power": -1,
+    "powerPoint": 10,
+    "accuracy": 110,
+    "specialCondition": " "
+  },
+  {
+    "id": 4,
+    "moveName": "Fire Punch",
+    "type": "fire",
+    "power": 75,
+    "powerPoint": 15,
+    "accuracy": 100,
+    "specialCondition": " "
+  },
+  {
+    "id": 5,
+    "moveName": "Hydro Pump",
+    "type": "water",
+    "power": 110,
+    "powerPoint": 5,
+    "accuracy": 80,
+    "specialCondition": " "
+  },
+  {
+    "id": 6,
+    "moveName": "Muddy Water",
+    "type": "water",
+    "power": 90,
+    "powerPoint": 10,
+    "accuracy": 85,
+    "specialCondition": " "
+  },
+  {
+    "id": 7,
+    "moveName": "Earthquake",
+    "type": "ground",
+    "power": 100,
+    "powerPoint": 10,
+    "accuracy": 100,
+    "specialCondition": " "
+  },
+  {
+    "id": 8,
+    "moveName": "Ice Beam",
+    "type": "ice",
+    "power": 90,
+    "powerPoint": 10,
+    "accuracy": 100,
+    "specialCondition": " "
+  },
+  {
+    "id": 9,
+    "moveName": "Thunderbolt",
+    "type": "electric",
+    "power": 90,
+    "powerPoint": 15,
+    "accuracy": 100,
+    "specialCondition": " "
+  },
+  {
+    "id": 10,
+    "moveName": "Thunder",
+    "type": "electric",
+    "power": 110,
+    "powerPoint": 10,
+    "accuracy": 70,
+    "specialCondition": " "
+  },
+  {
+    "id": 11,
+    "moveName": "Iron Tail",
+    "type": "steel",
+    "power": 100,
+    "powerPoint": 15,
+    "accuracy": 75,
+    "specialCondition": " "
+  },
+  {
+    "id": 12,
+    "moveName": "Leaf Storm",
+    "type": "grass",
+    "power": 130,
+    "powerPoint": 5,
+    "accuracy": 90,
+    "specialCondition": "0"
+  },
+  {
+    "id": 13,
+    "moveName": "Sludge Wave",
+    "type": "poison",
+    "power": 95,
+    "powerPoint": 10,
+    "accuracy": 100,
+    "specialCondition": " "
+  },
+  {
+    "id": 14,
+    "moveName": "Frenzy Plant",
+    "type": "grass",
+    "power": 150,
+    "powerPoint": 5,
+    "accuracy": 90,
+    "specialCondition": "0"
+  },
+  {
+    "id": 20,
+    "moveName": "Double Kick",
+    "type": "fighting",
+    "power": 60,
+    "powerPoint": 30,
+    "accuracy": 100,
+    "specialCondition": " "
+  }
+]
