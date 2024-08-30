@@ -46,10 +46,11 @@ public class Main {
         int turnCount = 1;        
         boolean battleEnd = false;
         Pokemon pkm1 = new Pokemon();
+        int[] pkm1PPs = new int[4];        
         Pokemon pkm2 = new Pokemon();        
-        Scanner sc = new Scanner(System.in);
-        ArrayList<BattleProperties> battleProperties = new ArrayList<BattleProperties>();
-              
+        int[] pkm2PPs = new int[4];       
+        Scanner sc = new Scanner(System.in);                
+        ArrayList<BattleProperties> battleProperties = new ArrayList<BattleProperties>();                      
 
         try {                        
             clearScreen();
@@ -58,13 +59,21 @@ public class Main {
             getPokemonNames(pkmList);           
             int opt1 = sc.nextInt();
             pkm1 = getPokemonByID(pkmList, opt1, pkm1);
+            pkm1PPs[0] = pkm1.getMoveSet()[0].getPowerPoint();                    
+            pkm1PPs[1] = pkm1.getMoveSet()[1].getPowerPoint();                    
+            pkm1PPs[2] = pkm1.getMoveSet()[2].getPowerPoint();                    
+            pkm1PPs[3] = pkm1.getMoveSet()[3].getPowerPoint();                                
             createBattleProperty(pkm1, battleProperties);            
             clearScreen();                        
             // ESCOGER SEGUNDO POKEMON
             System.out.println("JUGADOR 2 ESCOJA SU POKEMON");
             getPokemonNames(pkmList);           
             int opt2 = sc.nextInt();
-            pkm2 = getPokemonByID(pkmList, opt2, pkm2);                        
+            pkm2 = getPokemonByID(pkmList, opt2, pkm2);            
+            pkm2PPs[0] = pkm2.getMoveSet()[0].getPowerPoint();                    
+            pkm2PPs[1] = pkm2.getMoveSet()[1].getPowerPoint();                    
+            pkm2PPs[2] = pkm2.getMoveSet()[2].getPowerPoint();                    
+            pkm2PPs[3] = pkm2.getMoveSet()[3].getPowerPoint();                        
             createBattleProperty(pkm2, battleProperties);
             clearScreen();            
         }   catch(Exception e){
@@ -74,11 +83,11 @@ public class Main {
             try {                  
                 printHeader(turnCount);
                 System.out.println("\nJUGADOR 1, ESCOGE TU MOVIMIENTO");                
-                showMovesMenu(pkm1, moveList, turnCount, 1, battleProperties);                
+                showMovesMenu(pkm1, moveList, turnCount, 1, battleProperties, pkm1PPs);                
 
                 printHeader(turnCount);
                 System.out.println("\nJUGADOR 2, ESCOGE TU MOVIMIENTO");                
-                showMovesMenu(pkm2, moveList, turnCount, 2, battleProperties);
+                showMovesMenu(pkm2, moveList, turnCount, 2, battleProperties, pkm2PPs);
                 turnCount ++;                
                 //battleEnd = true;
             }   catch (Exception e) {
@@ -178,55 +187,52 @@ public class Main {
         return pkm;
     }
             
-    public static void showMovesMenu(Pokemon pkm, LinkedList<Move> moveList, int turnCount, int currentPlayer, ArrayList<BattleProperties> bProperty){ 
+    public static void showMovesMenu(Pokemon pkm, LinkedList<Move> moveList, int turnCount, int currentPlayer, ArrayList<BattleProperties> bProperty, int[] pkmPPs){ 
         int moveUsed = 0;
         Scanner sc = new Scanner(System.in);        
         try {
             switch (currentPlayer) {
                 case 1:
-                    int movePP1 = bProperty.get(0).getFirstMovePP();                    
-                    int movePP2 = bProperty.get(0).getSecondMovePP();
-                    int movePP3 = bProperty.get(0).getThirdMovePP();
-                    int movePP4 = bProperty.get(0).getFourthMovePP();
+                    
                     if (turnCount == 1) {                                
                         System.out.println("\n" + pkm.getName().toUpperCase() + " - HP: " + bProperty.get(0).getPkmHP());
-                        System.out.println("1. "+ getMoveStringFormat(bProperty.get(0).getFirstMoveName(), movePP1, movePP1, bProperty.get(0).getFirstMoveType())
-                                        + "\t2. " + getMoveStringFormat(bProperty.get(0).getSecondMoveName(), movePP1, movePP1, bProperty.get(0).getSecondMoveType()));
-                        System.out.println("3. " + getMoveStringFormat(bProperty.get(0).getThirdMoveName(), movePP1, movePP1, bProperty.get(0).getThirdMoveType())
-                                        + "\t4. " + getMoveStringFormat(bProperty.get(0).getFourthMoveName(), movePP1, bProperty.get(0).getFourthMovePP(), bProperty.get(0).getFourthMoveType()));
+                        System.out.println("1. "+ getMoveStringFormat(bProperty.get(0).getFirstMoveName(), pkmPPs[0], pkmPPs[0], bProperty.get(0).getFirstMoveType())
+                                        + "\t2. " + getMoveStringFormat(bProperty.get(0).getSecondMoveName(), pkmPPs[1], pkmPPs[1], bProperty.get(0).getSecondMoveType()));
+                        System.out.println("3. " + getMoveStringFormat(bProperty.get(0).getThirdMoveName(), pkmPPs[2], pkmPPs[2], bProperty.get(0).getThirdMoveType())
+                                        + "\t4. " + getMoveStringFormat(bProperty.get(0).getFourthMoveName(), pkmPPs[3], pkmPPs[3], bProperty.get(0).getFourthMoveType()));
                         moveUsed = sc.nextInt();
                         calculatePowerPoints(bProperty, 1, moveUsed);                                                        
                         clearScreen();                     
                     }   else{
                             System.out.println("\n" + pkm.getName().toUpperCase() + " - HP: " + bProperty.get(0).getPkmHP());
-                            System.out.println("1. " + getMoveStringFormat(bProperty.get(0).getFirstMoveName(), bProperty.get(0).getFirstMovePP(), bProperty.get(0).getFirstMovePP(), bProperty.get(0).getFirstMoveType())
-                                            + "\t2. " + getMoveStringFormat(bProperty.get(0).getSecondMoveName(), bProperty.get(0).getSecondMovePP(), bProperty.get(0).getSecondMovePP(), bProperty.get(0).getSecondMoveType()));
-                            System.out.println("3. " + getMoveStringFormat(bProperty.get(0).getThirdMoveName(), bProperty.get(0).getThirdMovePP(), bProperty.get(0).getThirdMovePP(), bProperty.get(0).getThirdMoveType())
-                                            + "\t4. " + getMoveStringFormat(bProperty.get(0).getFourthMoveName(), bProperty.get(0).getFourthMovePP(), bProperty.get(0).getFourthMovePP(), bProperty.get(0).getFourthMoveType()));
+                            System.out.println("1. " + getMoveStringFormat(bProperty.get(0).getFirstMoveName(), bProperty.get(0).getFirstMovePP(), pkmPPs[0], bProperty.get(0).getFirstMoveType())
+                                            + "\t2. " + getMoveStringFormat(bProperty.get(0).getSecondMoveName(), bProperty.get(0).getSecondMovePP(), pkmPPs[1], bProperty.get(0).getSecondMoveType()));
+                            System.out.println("3. " + getMoveStringFormat(bProperty.get(0).getThirdMoveName(), bProperty.get(0).getThirdMovePP(), pkmPPs[2], bProperty.get(0).getThirdMoveType())
+                                            + "\t4. " + getMoveStringFormat(bProperty.get(0).getFourthMoveName(), bProperty.get(0).getFourthMovePP(), pkmPPs[3], bProperty.get(0).getFourthMoveType()));
                             moveUsed = sc.nextInt();
                             calculatePowerPoints(bProperty, 1, moveUsed);                                                        
                             clearScreen();                                   
                         }
                 break;
 
-                case 2:
-                if (turnCount == 1) {                                
+                case 2:                    
+                if (turnCount == 1) {                                                    
                     System.out.println("\n" + pkm.getName().toUpperCase() + " - HP: " + bProperty.get(0).getPkmHP());
-                    System.out.println("1. "+ getMoveStringFormat(bProperty.get(1).getFirstMoveName(), bProperty.get(1).getFirstMovePP(), bProperty.get(1).getFirstMovePP(), bProperty.get(1).getFirstMoveType())
-                                    + "\t2. " + getMoveStringFormat(bProperty.get(1).getSecondMoveName(), bProperty.get(1).getSecondMovePP(), bProperty.get(1).getSecondMovePP(), bProperty.get(1).getSecondMoveType()));
-                    System.out.println("3. " + getMoveStringFormat(bProperty.get(1).getThirdMoveName(), bProperty.get(1).getThirdMovePP(), bProperty.get(1).getThirdMovePP(), bProperty.get(1).getThirdMoveType())
-                                    + "\t4. " + getMoveStringFormat(bProperty.get(1).getFourthMoveName(), bProperty.get(1).getFourthMovePP(), bProperty.get(1).getFourthMovePP(), bProperty.get(1).getFourthMoveType()));
+                    System.out.println("1. "+ getMoveStringFormat(bProperty.get(1).getFirstMoveName(), pkmPPs[0], pkmPPs[0], bProperty.get(1).getFirstMoveType())
+                                    + "\t2. " + getMoveStringFormat(bProperty.get(1).getSecondMoveName(), pkmPPs[1], pkmPPs[1], bProperty.get(1).getSecondMoveType()));
+                    System.out.println("3. " + getMoveStringFormat(bProperty.get(1).getThirdMoveName(), pkmPPs[2], pkmPPs[2], bProperty.get(1).getThirdMoveType())
+                                    + "\t4. " + getMoveStringFormat(bProperty.get(1).getFourthMoveName(), pkmPPs[3], pkmPPs[3], bProperty.get(1).getFourthMoveType()));
                     moveUsed = sc.nextInt(); 
-                    calculatePowerPoints(bProperty, 1, moveUsed);                                                        
+                    calculatePowerPoints(bProperty, 2, moveUsed);                                                        
                     clearScreen();                     
                 }   else{
                         System.out.println("\n" + pkm.getName().toUpperCase() + " - HP: " + bProperty.get(0).getPkmHP());
-                        System.out.println("1. " + getMoveStringFormat(bProperty.get(1).getFirstMoveName(), bProperty.get(1).getFirstMovePP(), bProperty.get(1).getFirstMovePP(), bProperty.get(1).getFirstMoveType())
-                                        + "\t2. " + getMoveStringFormat(bProperty.get(1).getSecondMoveName(), bProperty.get(1).getSecondMovePP(), bProperty.get(1).getSecondMovePP(), bProperty.get(1).getSecondMoveType()));
-                        System.out.println("3. " + getMoveStringFormat(bProperty.get(1).getThirdMoveName(), bProperty.get(1).getThirdMovePP(), bProperty.get(1).getThirdMovePP(), bProperty.get(1).getThirdMoveType())
-                                        + "\t4. " + getMoveStringFormat(bProperty.get(1).getFourthMoveName(), bProperty.get(1).getFourthMovePP(), bProperty.get(1).getFourthMovePP(), bProperty.get(1).getFourthMoveType()));
+                        System.out.println("1. " + getMoveStringFormat(bProperty.get(1).getFirstMoveName(), bProperty.get(1).getFirstMovePP(), pkmPPs[0], bProperty.get(1).getFirstMoveType())
+                                        + "\t2. " + getMoveStringFormat(bProperty.get(1).getSecondMoveName(), bProperty.get(1).getSecondMovePP(), pkmPPs[1], bProperty.get(1).getSecondMoveType()));
+                        System.out.println("3. " + getMoveStringFormat(bProperty.get(1).getThirdMoveName(), bProperty.get(1).getThirdMovePP(), pkmPPs[2], bProperty.get(1).getThirdMoveType())
+                                        + "\t4. " + getMoveStringFormat(bProperty.get(1).getFourthMoveName(), bProperty.get(1).getFourthMovePP(), pkmPPs[3], bProperty.get(1).getFourthMoveType()));
                         moveUsed = sc.nextInt();
-                        calculatePowerPoints(bProperty, 1, moveUsed);                                                        
+                        calculatePowerPoints(bProperty, 2, moveUsed);                                                        
                         clearScreen();                                    
                     }
                 break;
