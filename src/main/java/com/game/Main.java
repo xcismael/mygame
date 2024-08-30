@@ -20,26 +20,8 @@ public class Main {
         LinkedList<Pokemon> pkmList = new LinkedList<Pokemon>();
         LinkedList<Move> moveList = new LinkedList<Move>();
 
-        createMove(1, "Flamethrower", 90, 15, "fire", 100, ' ', moveList);
-        createMove(2, "Dragon Claw", 80, 15, "dragon", 100, ' ', moveList);
-        createMove(3,"Protect", -1, 10, "normal", 110, ' ', moveList);
-        createMove(4, "Fire Punch", 75, 15, "fire", 100, ' ', moveList);
-        createMove(5, "Hydro Pump", 110, 5, "water", 80, ' ', moveList);
-        createMove(6, "Muddy Water", 90, 10, "water", 85, ' ', moveList);
-        createMove(7, "Earthquake", 100, 10, "ground", 100, ' ', moveList);
-        createMove(8, "Ice Beam", 90, 10, "ice", 100, ' ', moveList);
-        createMove(9, "Thunderbolt", 90, 15, "electric", 100, ' ', moveList);
-        createMove(10, "Thunder", 110, 10, "electric", 70, ' ', moveList);
-        createMove(11, "Iron Tail", 100, 15, "steel", 75, ' ', moveList);
-        createMove(12, "Leaf Storm", 130, 5, "grass", 90, '0', moveList);
-        createMove(13, "Sludge Wave", 95, 10, "poison", 100, ' ', moveList);
-        createMove(14, "Frenzy Plant", 150, 5, "grass", 90, '0', moveList);
-        createMove(20, "Double Kick", 60, 30, "fighting", 100, ' ', moveList);                                               
-        
-        createPokemon(1, "Charmander", "Fire", null, 200, 65, 1, 2, 4, 3, moveList, pkmList);
-        createPokemon(2, "Squirtle", "Water", null, 200, 43, 5, 6, 7, 3, moveList, pkmList);
-        createPokemon(3, "Bulbasaur", "Grass", "Poison", 200, 45, 12, 13, 14, 3, moveList, pkmList);
-        createPokemon(4, "Pikachu", "Electric", null, 200, 90, 9, 10, 11, 3, moveList, pkmList);                
+        startMoveCreation(moveList);
+        startPokemonCreation(moveList, pkmList);                                                                                      
 
         createJSONFiles(fileDirectory, moveList, pkmList);
         
@@ -189,11 +171,11 @@ public class Main {
             
     public static void showMovesMenu(Pokemon pkm, LinkedList<Move> moveList, int turnCount, int currentPlayer, ArrayList<BattleProperties> bProperty, int[] pkmPPs){ 
         int moveUsed = 0;
+        int moveUsedPPs = 0;
         Scanner sc = new Scanner(System.in);        
         try {
             switch (currentPlayer) {
-                case 1:
-                    
+                case 1:                    
                     if (turnCount == 1) {                                
                         System.out.println("\n" + pkm.getName().toUpperCase() + " - HP: " + bProperty.get(0).getPkmHP());
                         System.out.println("1. "+ getMoveStringFormat(bProperty.get(0).getFirstMoveName(), pkmPPs[0], pkmPPs[0], bProperty.get(0).getFirstMoveType())
@@ -204,37 +186,53 @@ public class Main {
                         calculatePowerPoints(bProperty, 1, moveUsed);                                                        
                         clearScreen();                     
                     }   else{
-                            System.out.println("\n" + pkm.getName().toUpperCase() + " - HP: " + bProperty.get(0).getPkmHP());
-                            System.out.println("1. " + getMoveStringFormat(bProperty.get(0).getFirstMoveName(), bProperty.get(0).getFirstMovePP(), pkmPPs[0], bProperty.get(0).getFirstMoveType())
-                                            + "\t2. " + getMoveStringFormat(bProperty.get(0).getSecondMoveName(), bProperty.get(0).getSecondMovePP(), pkmPPs[1], bProperty.get(0).getSecondMoveType()));
-                            System.out.println("3. " + getMoveStringFormat(bProperty.get(0).getThirdMoveName(), bProperty.get(0).getThirdMovePP(), pkmPPs[2], bProperty.get(0).getThirdMoveType())
-                                            + "\t4. " + getMoveStringFormat(bProperty.get(0).getFourthMoveName(), bProperty.get(0).getFourthMovePP(), pkmPPs[3], bProperty.get(0).getFourthMoveType()));
-                            moveUsed = sc.nextInt();
-                            calculatePowerPoints(bProperty, 1, moveUsed);                                                        
-                            clearScreen();                                   
+                            do{
+                                System.out.println("\n" + pkm.getName().toUpperCase() + " - HP: " + bProperty.get(0).getPkmHP());
+                                System.out.println("1. " + getMoveStringFormat(bProperty.get(0).getFirstMoveName(), bProperty.get(0).getFirstMovePP(), pkmPPs[0], bProperty.get(0).getFirstMoveType())
+                                                + "\t2. " + getMoveStringFormat(bProperty.get(0).getSecondMoveName(), bProperty.get(0).getSecondMovePP(), pkmPPs[1], bProperty.get(0).getSecondMoveType()));
+                                System.out.println("3. " + getMoveStringFormat(bProperty.get(0).getThirdMoveName(), bProperty.get(0).getThirdMovePP(), pkmPPs[2], bProperty.get(0).getThirdMoveType())
+                                                + "\t4. " + getMoveStringFormat(bProperty.get(0).getFourthMoveName(), bProperty.get(0).getFourthMovePP(), pkmPPs[3], bProperty.get(0).getFourthMoveType()));
+                                moveUsed = sc.nextInt();                                
+                                moveUsedPPs = calculatePowerPoints(bProperty, 1, moveUsed);                                
+                                if (moveUsedPPs == 0) {
+                                    System.out.println("¡NO TIENES MAS PPs PARA ESTE MOVIMIENTO!\n");
+                                    Thread.sleep(3000);
+                                }                                                  
+                                clearScreen();       
+                            }   while(moveUsedPPs == 0);                                                                                          
                         }
                 break;
 
                 case 2:                    
-                if (turnCount == 1) {                                                    
-                    System.out.println("\n" + pkm.getName().toUpperCase() + " - HP: " + bProperty.get(0).getPkmHP());
-                    System.out.println("1. "+ getMoveStringFormat(bProperty.get(1).getFirstMoveName(), pkmPPs[0], pkmPPs[0], bProperty.get(1).getFirstMoveType())
-                                    + "\t2. " + getMoveStringFormat(bProperty.get(1).getSecondMoveName(), pkmPPs[1], pkmPPs[1], bProperty.get(1).getSecondMoveType()));
-                    System.out.println("3. " + getMoveStringFormat(bProperty.get(1).getThirdMoveName(), pkmPPs[2], pkmPPs[2], bProperty.get(1).getThirdMoveType())
-                                    + "\t4. " + getMoveStringFormat(bProperty.get(1).getFourthMoveName(), pkmPPs[3], pkmPPs[3], bProperty.get(1).getFourthMoveType()));
-                    moveUsed = sc.nextInt(); 
-                    calculatePowerPoints(bProperty, 2, moveUsed);                                                        
-                    clearScreen();                     
-                }   else{
+                    if (turnCount == 1) {                                                    
                         System.out.println("\n" + pkm.getName().toUpperCase() + " - HP: " + bProperty.get(0).getPkmHP());
-                        System.out.println("1. " + getMoveStringFormat(bProperty.get(1).getFirstMoveName(), bProperty.get(1).getFirstMovePP(), pkmPPs[0], bProperty.get(1).getFirstMoveType())
-                                        + "\t2. " + getMoveStringFormat(bProperty.get(1).getSecondMoveName(), bProperty.get(1).getSecondMovePP(), pkmPPs[1], bProperty.get(1).getSecondMoveType()));
-                        System.out.println("3. " + getMoveStringFormat(bProperty.get(1).getThirdMoveName(), bProperty.get(1).getThirdMovePP(), pkmPPs[2], bProperty.get(1).getThirdMoveType())
-                                        + "\t4. " + getMoveStringFormat(bProperty.get(1).getFourthMoveName(), bProperty.get(1).getFourthMovePP(), pkmPPs[3], bProperty.get(1).getFourthMoveType()));
-                        moveUsed = sc.nextInt();
+                        System.out.println("1. "+ getMoveStringFormat(bProperty.get(1).getFirstMoveName(), pkmPPs[0], pkmPPs[0], bProperty.get(1).getFirstMoveType())
+                                        + "\t2. " + getMoveStringFormat(bProperty.get(1).getSecondMoveName(), pkmPPs[1], pkmPPs[1], bProperty.get(1).getSecondMoveType()));
+                        System.out.println("3. " + getMoveStringFormat(bProperty.get(1).getThirdMoveName(), pkmPPs[2], pkmPPs[2], bProperty.get(1).getThirdMoveType())
+                                        + "\t4. " + getMoveStringFormat(bProperty.get(1).getFourthMoveName(), pkmPPs[3], pkmPPs[3], bProperty.get(1).getFourthMoveType()));
+                        moveUsed = sc.nextInt(); 
                         calculatePowerPoints(bProperty, 2, moveUsed);                                                        
-                        clearScreen();                                    
-                    }
+                        clearScreen();                     
+                    }   else{
+                            do{
+                                System.out.println("\n" + pkm.getName().toUpperCase() + " - HP: " + bProperty.get(0).getPkmHP());
+                                System.out.println("1. " + getMoveStringFormat(bProperty.get(1).getFirstMoveName(), bProperty.get(1).getFirstMovePP(), pkmPPs[0], bProperty.get(1).getFirstMoveType())
+                                                + "\t2. " + getMoveStringFormat(bProperty.get(1).getSecondMoveName(), bProperty.get(1).getSecondMovePP(), pkmPPs[1], bProperty.get(1).getSecondMoveType()));
+                                System.out.println("3. " + getMoveStringFormat(bProperty.get(1).getThirdMoveName(), bProperty.get(1).getThirdMovePP(), pkmPPs[2], bProperty.get(1).getThirdMoveType())
+                                                + "\t4. " + getMoveStringFormat(bProperty.get(1).getFourthMoveName(), bProperty.get(1).getFourthMovePP(), pkmPPs[3], bProperty.get(1).getFourthMoveType()));
+                                moveUsed = sc.nextInt();
+                                moveUsedPPs = calculatePowerPoints(bProperty, 2, moveUsed);
+                                if (moveUsedPPs == 0) {
+                                    System.out.println("¡NO TIENES MAS PPs PARA ESTE MOVIMIENTO!\n");
+                                    Thread.sleep(3000);
+                                    clearScreen();
+                                    printHeader(turnCount);
+                                    System.out.println("\nJUGADOR 2, ESCOGE TU MOVIMIENTO");
+                                }   else{
+                                        clearScreen();                                                                               
+                                    }                                                                                                 
+                            }   while(moveUsedPPs == 0);                                                                                 
+                        }
                 break;
             
                 default:
@@ -256,31 +254,72 @@ public class Main {
 
     public static int calculatePowerPoints(ArrayList<BattleProperties> bProperties, int currentPlayer, int movedUsed){ 
         int currentPP = 0;
-        switch (movedUsed) {
-            case 1:
-                bProperties.get(currentPlayer - 1).setFirstMovePP(bProperties.get(currentPlayer - 1).getFirstMovePP() - 1); 
-                currentPP =  bProperties.get(currentPlayer - 1).getFirstMovePP();
-            break;
-            case 2:
-                bProperties.get(currentPlayer - 1).setSecondMovePP(bProperties.get(currentPlayer - 1).getSecondMovePP() - 1);
-                currentPP =  bProperties.get(currentPlayer - 1).getSecondMovePP();
-            break;
-            case 3:
-                bProperties.get(currentPlayer - 1).setThirdMovePP(bProperties.get(currentPlayer - 1).getThirdMovePP() - 1);
-                currentPP =  bProperties.get(currentPlayer - 1).getThirdMovePP();
-            break;
-            case 4:
-                bProperties.get(currentPlayer - 1).setFourthMovePP(bProperties.get(currentPlayer - 1).getFourthMovePP() - 1);
-                currentPP =  bProperties.get(currentPlayer - 1).getFourthMovePP();
-            break;        
-            default:
-            break;
-        }        
+        try {
+            switch (movedUsed) {
+                case 1:
+                    currentPP =  bProperties.get(currentPlayer - 1).getFirstMovePP();
+                    if (currentPP > 0) {
+                        currentPP =  bProperties.get(currentPlayer - 1).getFirstMovePP();
+                        bProperties.get(currentPlayer - 1).setFirstMovePP(bProperties.get(currentPlayer - 1).getFirstMovePP() - 1);                                                                 
+                    }
+                break;
+                case 2:
+                    currentPP =  bProperties.get(currentPlayer - 1).getSecondMovePP();
+                    if(currentPP > 0){
+                        currentPP =  bProperties.get(currentPlayer - 1).getSecondMovePP();
+                        bProperties.get(currentPlayer - 1).setSecondMovePP(bProperties.get(currentPlayer - 1).getSecondMovePP() - 1);                    
+                    }                    
+                break;
+                case 3:
+                    currentPP =  bProperties.get(currentPlayer - 1).getThirdMovePP();
+                    if(currentPP > 0){
+                        currentPP =  bProperties.get(currentPlayer - 1).getThirdMovePP();
+                        bProperties.get(currentPlayer - 1).setThirdMovePP(bProperties.get(currentPlayer - 1).getThirdMovePP() - 1);
+                    }                    
+                break;
+                case 4:
+                    currentPP =  bProperties.get(currentPlayer - 1).getFourthMovePP();
+                    if(currentPP > 0){
+                        currentPP =  bProperties.get(currentPlayer - 1).getFourthMovePP();
+                        bProperties.get(currentPlayer - 1).setFourthMovePP(bProperties.get(currentPlayer - 1).getFourthMovePP() - 1);
+                    }                    
+                break;        
+                default:
+                break;
+            }    
+        }   catch (Exception e) {
+                System.out.println(e.toString());
+            }                
         return currentPP;
     }
 
     public static void calculateBattle(int pkmHP, int movePP, String moveName){
         //calculatePowerPoints(movePP);
+    }
+
+    public static void startMoveCreation(LinkedList<Move> moveList){
+        createMove(1, "Flamethrower", 90, 15, "fire", 100, ' ', moveList);
+        createMove(2, "Dragon Claw", 80, 15, "dragon", 100, ' ', moveList);
+        createMove(3,"Protect", -1, 10, "normal", 110, ' ', moveList);
+        createMove(4, "Fire Punch", 75, 15, "fire", 100, ' ', moveList);
+        createMove(5, "Hydro Pump", 110, 5, "water", 80, ' ', moveList);
+        createMove(6, "Muddy Water", 90, 10, "water", 85, ' ', moveList);
+        createMove(7, "Earthquake", 100, 10, "ground", 100, ' ', moveList);
+        createMove(8, "Ice Beam", 90, 10, "ice", 100, ' ', moveList);
+        createMove(9, "Thunderbolt", 90, 15, "electric", 100, ' ', moveList);
+        createMove(10, "Thunder", 110, 10, "electric", 70, ' ', moveList);
+        createMove(11, "Iron Tail", 100, 15, "steel", 75, ' ', moveList);
+        createMove(12, "Leaf Storm", 130, 5, "grass", 90, '0', moveList);
+        createMove(13, "Sludge Wave", 95, 10, "poison", 100, ' ', moveList);
+        createMove(14, "Frenzy Plant", 150, 5, "grass", 90, '0', moveList);
+        createMove(20, "Double Kick", 60, 30, "fighting", 100, ' ', moveList);    
+    }
+
+    public static void startPokemonCreation(LinkedList<Move> moveList, LinkedList<Pokemon> pkmList){
+        createPokemon(1, "Charmander", "Fire", null, 200, 65, 1, 2, 4, 3, moveList, pkmList);
+        createPokemon(2, "Squirtle", "Water", null, 200, 43, 5, 6, 7, 3, moveList, pkmList);
+        createPokemon(3, "Bulbasaur", "Grass", "Poison", 200, 45, 12, 13, 14, 3, moveList, pkmList);
+        createPokemon(4, "Pikachu", "Electric", null, 200, 90, 9, 10, 11, 3, moveList, pkmList); 
     }
         
     public static void convertListToJSON(LinkedList<?> linkedList, String fileDirectory) {
